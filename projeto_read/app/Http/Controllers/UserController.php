@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user_create',['user' => $user]);
+        return view('user_create');
     }
 
     /**
@@ -34,15 +34,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+   
+    $created = $this->user->create([
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'password' => password_hash($request->input('password'), PASSWORD_DEFAULT),
+    ]);
+    if ($created) {
+        return redirect()->back()->with('message', 'update');
     }
+
+    return redirect()->back()->with('message', 'não deu');
+}
+
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(user $user)
     {
-        //
+        return view('user_show', ['user' => $user]); 
     }
 
     /**
@@ -76,6 +88,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->user->where('id', $id)->delete();
+
+        return redirect()->route('users.index');
     }
 }
