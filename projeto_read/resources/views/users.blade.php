@@ -6,7 +6,7 @@
     @section('content')
 
 @foreach ($users as $user)
-            <li>{{ $user->nome }}</li>
+            <li>{{ $user->name }} | <a href="{{ route('users.edit',['user' => $user->id]) }}">Edit</a> | <a href="">Delete</a></li>
         @endforeach
 
 @endsection
